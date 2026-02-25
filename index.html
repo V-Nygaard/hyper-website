@@ -51,40 +51,6 @@
             cursor: none;
         }
 
-        /* ========== CUSTOM CURSOR ========== */
-        .cursor-dot {
-            position: fixed;
-            top: 0; left: 0;
-            width: 8px; height: 8px;
-            background: var(--yellow);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99999;
-            transition: transform 0.1s ease, opacity 0.3s;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
-        }
-        .cursor-ring {
-            position: fixed;
-            top: 0; left: 0;
-            width: 36px; height: 36px;
-            border: 2px solid rgba(255, 234, 5, 0.5);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99998;
-            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, transform 0.15s ease;
-            transform: translate(-50%, -50%);
-        }
-        .cursor-ring.hover {
-            width: 56px; height: 56px;
-            border-color: var(--yellow);
-            background: rgba(255, 234, 5, 0.08);
-        }
-
-        @media (max-width: 768px) {
-            .cursor-dot, .cursor-ring { display: none; }
-            body { cursor: auto; }
-        }
 
         /* ========== NOISE OVERLAY ========== */
         body::before {
@@ -1761,9 +1727,6 @@
         <div class="loader-bar"></div>
     </div>
 
-    <!-- ========== CUSTOM CURSOR ========== -->
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="cursor-ring" id="cursorRing"></div>
 
     <!-- ========== BACK TO TOP ========== -->
     <button class="back-to-top" id="backToTop" aria-label="Tilbake til toppen">
@@ -2262,37 +2225,6 @@
             loader.classList.add('hidden');
         }, 3000);
 
-        // ===== CUSTOM CURSOR =====
-        const cursorDot = document.getElementById('cursorDot');
-        const cursorRing = document.getElementById('cursorRing');
-        let mouseX = 0, mouseY = 0;
-        let ringX = 0, ringY = 0;
-
-        if (window.matchMedia('(pointer: fine)').matches) {
-            document.addEventListener('mousemove', function(e) {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                cursorDot.style.left = mouseX + 'px';
-                cursorDot.style.top = mouseY + 'px';
-            });
-
-            // Smooth ring follow
-            function animateRing() {
-                ringX += (mouseX - ringX) * 0.15;
-                ringY += (mouseY - ringY) * 0.15;
-                cursorRing.style.left = ringX + 'px';
-                cursorRing.style.top = ringY + 'px';
-                requestAnimationFrame(animateRing);
-            }
-            animateRing();
-
-            // Hover state for interactive elements
-            var hoverTargets = document.querySelectorAll('a, button, .tilt-card, .play-circle, .btn');
-            hoverTargets.forEach(function(el) {
-                el.addEventListener('mouseenter', function() { cursorRing.classList.add('hover'); });
-                el.addEventListener('mouseleave', function() { cursorRing.classList.remove('hover'); });
-            });
-        }
 
         // ===== HERO MOUSE-FOLLOW GLOW =====
         var heroSection = document.querySelector('.hero');
